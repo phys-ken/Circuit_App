@@ -1,15 +1,16 @@
-WireObj w1;
+BatObj w1;
 RObj w2;
 RObj w3;
 WireObj w4;
 
 int memoriWeight = 1;
+int graphWeight = 2;
 
 void setup() {
   size(480,480);
   background(255);
   smooth();
-  strokeWeight(5);
+  strokeWeight(5);//回路の線の幅
   
   float x1 = 100; 
   float y1 = 300;
@@ -20,7 +21,7 @@ void setup() {
   float Gnd  = 0;
   
   
-  w1 = new WireObj(x1,y1,L,deg,Vin, Vin, "R");
+  w1 = new BatObj(x1,y1,L,deg,Gnd, Vin, "R");
   w2 = new RObj(w1.endX,w1.endY,L,deg,w1.Vout,V1,"U");
   w3 = new RObj(w2.endX,w2.endY,L,deg,w2.Vout,Gnd,"L");
   w4 = new WireObj(w3.endX,w3.endY,L,deg,Gnd,Gnd,"D");
@@ -29,13 +30,18 @@ void setup() {
 void draw() {
   float Vmax = 80;
   w1.displayC();
-  w1.displayV(Vmax,0);
   w2.displayC();
-  w2.displayV(Vmax,0);
   w3.displayC();
-  w3.displayV(Vmax,0);
   w4.displayC();
-  w4.displayV(Vmax,0);
+  w1.displayS(Vmax,0);
+  w2.displayS(Vmax,0);
+  w3.displayS(Vmax,0);
+  w4.displayS(Vmax,0);
+  
+  w1.displayV();
+  w2.displayV();
+  w3.displayV();
+  w4.displayV();
 }
 
 
@@ -46,18 +52,19 @@ void draw() {
 //***初期化
 //**WireObj(始点x,始点y,線の長さ,角度,入力電圧、出力電圧、向き)
 //**RObj(始点x,始点y,線の長さ,角度,入力電圧、出力電圧、向き)
-//
+//**BatObj(始点x,始点y,線の長さ,角度,入力電圧、出力電圧、向き)
 
 //メソッド
 //.displayC(); 回路を描画
-//.displayV(Vmax,Vmin); グラフを描画　引数は、縦軸の上限
+//.displyS(Vmax,Vmin);目盛りを表示　引数は、縦軸の上限
+//.displayV(); グラフを描画　
 //     まだ、縦軸をマイナスの方向には拡張できていないです。
 
 class WireObj{
   float x1 , y1;
   float L,deg;
   float Vin,Vout;
-  String Muki; //ワイヤーの向き　１；縦　０；横
+  String Muki; 
   
   float endX = 0;
   float  endY = 0;
@@ -98,12 +105,16 @@ class WireObj{
     ellipse(x1,y1,10,10);
     popStyle();
   }
-  void displayV(float Vmax , float Vmin) {//グラフを表示するメソッド //グラフの縦軸の幅はVmaxで取得
+  void displayV() {//グラフを表示するメソッド //グラフの縦軸の幅はVmaxで取得
     //電圧を作図する
+    pushStyle(); 
     stroke(#051BFA);
+    strokeWeight(graphWeight);
     line(x1,y1 - Vin ,endX,endY - Vin);
-    stroke(0);
-    
+    popStyle();
+  }
+  
+  void displayS(float Vmax , float Vmin) {
     //電圧のメモリ
     pushStyle(); 
     strokeWeight(memoriWeight);
@@ -117,7 +128,6 @@ class WireObj{
 
 
 
-
 class RObj{
   float x1 , y1;
   float L,deg;
@@ -128,7 +138,7 @@ class RObj{
   float  endY = 0;
   
   //R抵抗の作図用
-  float rWidHi = 3; //Rの幅をワイヤーの長さLに対してどんな比にするか
+  float rWidHi = 2; //Rの幅をワイヤーの長さLに対してどんな比にするか
   float rHeight = 10;
   
   RObj(float tempX,float tempY, float tempL ,float tempDeg , float tempVin,  float tempVout ,String tempMuki) {
@@ -183,16 +193,21 @@ class RObj{
     popStyle();
   }
   
-  void displayV(float Vmax , float Vmin) {//グラフを表示するメソッド //グラフの縦軸の幅はVmaxで取得
+  void displayV() {//グラフを表示するメソッド //グラフの縦軸の幅はVmaxで取得
     //電圧を作図する
+    pushStyle();
     stroke(#051BFA);
+    strokeWeight(graphWeight);
     line(x1,y1 - Vin ,
       endX * (rWidHi - 1) / (2 * rWidHi)   +   x1 * (rWidHi + 1) / (2 * rWidHi)   ,endY * (rWidHi - 1) / (2 * rWidHi)   +   y1 * (rWidHi + 1) / (2 * rWidHi)  - Vin);
     line(endX * (rWidHi - 1) / (2 * rWidHi)   +   x1 * (rWidHi + 1) / (2 * rWidHi)   ,endY * (rWidHi - 1) / (2 * rWidHi)   +   y1 * (rWidHi + 1) / (2 * rWidHi) - Vin ,
       x1 * (rWidHi - 1) / (2 * rWidHi)   +   endX * (rWidHi + 1) / (2 * rWidHi)   ,y1 * (rWidHi - 1) / (2 * rWidHi)   +   endY * (rWidHi + 1) / (2 * rWidHi) - Vout);
     line(x1 * (rWidHi - 1) / (2 * rWidHi)   +   endX * (rWidHi + 1) / (2 * rWidHi)  ,y1 * (rWidHi - 1) / (2 * rWidHi)   +   endY * (rWidHi + 1) / (2 * rWidHi) - Vout ,
       endX ,endY - Vout);
-    
+    popStyle();
+  }
+  
+  void displayS(float Vmax , float Vmin) {  
     //縦軸を描画
     //線の幅memoriWeight は、グローバル変数で定義
     stroke(0);
@@ -246,6 +261,139 @@ class RObj{
          );
       }
     }
+    popStyle();
+  }
+}
+
+
+
+class BatObj{
+  float x1 , y1;
+  float L,deg;
+  float Vin,Vout;
+  String Muki; //ワイヤーの向き　１；縦　０；横
+  
+  float endX = 0;
+  float  endY = 0;
+  
+  //R抵抗の作図用
+  float batWidHi = 10; //Vの幅をワイヤーの長さLに対してどんな比にするか
+  float rHeight = 20;
+  
+  BatObj(float tempX,float tempY, float tempL ,float tempDeg , float tempVin,  float tempVout ,String tempMuki) {
+    x1 = tempX;
+    y1 = tempY;
+    L = tempL;
+    deg = tempDeg;
+    Vin = tempVin;
+    Vout = tempVout;
+    Vout = tempVout;
+    Muki = tempMuki;
+    
+    if (Muki == "U") {
+      endX = x1 + L  * cos(deg);
+      endY = y1 - L * sin(deg);
+    } 
+    else if (Muki == "R") {
+      endX = x1 + L;
+      endY = y1;
+    }
+    else if (Muki == "L") {
+      endX = x1 - L;
+      endY = y1;
+    }
+    else if (Muki == "D") {
+      endX = x1 - L  * cos(deg);
+      endY = y1 + L * sin(deg);
+    } 
+  }
+  
+  void displayC() { //回路の表示メソッド
+    stroke(0);
+    line(x1,y1,endX,endY); 
+    stroke(255);  
+    //縦か横で場合分け
+    if (Muki == "U" || Muki == "D") {
+      quad(endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi)  + rHeight,endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi) ,
+        endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi)  - rHeight ,endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi) ,
+        x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi) - rHeight ,y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi) ,
+        x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi) + rHeight ,y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi) 
+     );} else {
+      quad(endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi)  ,endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi) + rHeight ,
+        endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi)   ,endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi) -  rHeight,
+        x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi)  ,y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi) - rHeight,
+        x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi)  ,y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi) + rHeight
+       );
+    }
+    stroke(0);
+    
+    //電源の両端の棒
+    float Vmax = 30;
+    if (Muki == "R" || Muki == "L") { // //抵抗前の目盛り
+      
+      //-
+      line(endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi) , endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi)  - Vmax / 2,
+        endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi) , endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi) + Vmax / 2
+       );
+      //+
+      line(x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi) , y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi)  - Vmax,
+        x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi) , y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi) + Vmax
+       );
+    } else {
+      line(endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi) - Vmax / 2, 
+        endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi)  ,
+        endX * (batWidHi - 1) / (2 * batWidHi)   +   x1 * (batWidHi + 1) / (2 * batWidHi) + Vmax / 2,
+        endY * (batWidHi - 1) / (2 * batWidHi)   +   y1 * (batWidHi + 1) / (2 * batWidHi));
+      
+      line(x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi) - Vmax, 
+        y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi)  ,
+        x1 * (batWidHi - 1) / (2 * batWidHi)   +   endX * (batWidHi + 1) / (2 * batWidHi) + Vmax ,
+        y1 * (batWidHi - 1) / (2 * batWidHi)   +   endY * (batWidHi + 1) / (2 * batWidHi));
+    }
+    
+    pushStyle();
+    strokeWeight(memoriWeight);
+    ellipse(x1,y1,10,10);
+    popStyle();
+  }
+  
+  void displayV() {//グラフを表示するメソッド //グラフの縦軸の幅はVmaxで取得
+    //電圧を作図する
+    pushStyle();
+    strokeWeight(graphWeight);
+    stroke(#051BFA);
+    line(x1,y1 - Vin ,
+     (endX    +   x1) / 2  ,(endY    +   y1) / 2 - Vin);
+    line((endX    +   x1) / 2  ,(endY    +   y1) / 2 - Vin ,
+     (endX    +   x1) / 2  ,(endY    +   y1) / 2 - Vout);
+    line((endX    +   x1) / 2  ,(endY    +   y1) / 2 - Vout ,
+      endX ,endY - Vout);
+    popStyle();
+  }
+  
+  void displayS(float Vmax , float Vmin) {  
+    //縦軸を描画
+    //線の幅memoriWeight は、グローバル変数で定義
+    stroke(0);
+    pushStyle(); 
+    strokeWeight(memoriWeight);
+    
+    //銅線の縦軸
+    line(x1,y1 - Vmax,x1,y1 + Vmin);
+    // 電源の縦軸
+    line((endX    +   x1) / 2  ,(endY    +   y1) / 2 - Vmax,
+     (endX    +   x1) / 2  ,(endY    +   y1) / 2 - Vmin
+     );
+    
+    
+    for (int i = 1;i <= Vmax / 10;i++) {//Vinの目盛り
+      line(x1 - 5, y1 - i  * 10 , x1 + 5 , y1 - i  * 10);
+    }
+    
+    for (int i = 1;i <= Vmax / 10;i++) {//Vinの目盛り
+      line((endX    +   x1) / 2  - 5,(endY    +   y1) / 2 - i  * 10 ,(endX    +   x1) / 2   + 5 ,(endY    +   y1) / 2  - i  * 10);
+    }
+    
     popStyle();
   }
 }
