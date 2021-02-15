@@ -18,7 +18,7 @@ void setup() {
   float Vin = 80;
   float V1 = 40;
   float Gnd  = 0;
-   
+  
   
   w1 = new WireObj(x1,y1,L,deg,Vin, Vin, "R");
   w2 = new RObj(w1.endX,w1.endY,L,deg,w1.Vout,V1,"U");
