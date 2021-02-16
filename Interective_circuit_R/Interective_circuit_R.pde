@@ -1,7 +1,11 @@
 import controlP5.* ;
 
 ControlP5 slider;
+ControlP5 Vtoggle;
+ControlP5 Stoggle;
 int sliderValue;
+boolean VtoggleValue;
+boolean StoggleValue;
 
 BatObj w1;
 WireObj w2;
@@ -13,12 +17,16 @@ WireObj w7;
 
 int memoriWeight = 1;
 int graphWeight = 2;
-float Vmax = 80;
+float Vmax = 30;
+
+
 
 void setup() {
   size(480, 480);
   background(255);
   smooth();
+  PFont myFont = loadFont("Osaka-48.vlw");
+textFont(myFont);
   strokeWeight(5);//回路の線の幅
 
   float x1 = 100; 
@@ -28,8 +36,14 @@ void setup() {
   float deg = radians(50); //0度〜180度で指定
   float Vin = 60;
   float Gnd  = 0;
+  float controlY = 0.9; //上から9/10のところにバーを設置する。
+  float slidebarX = 0.1;
+  float VtoggleX = 0.8;
+  float StoggleX = 0.6;
 
-
+//********************************************この部分を編集//********************************************
+//各種ワイヤーオブジェクトをここで定義。
+//  (始点x  始点y  線の長さ　傾き　入力電圧　　出力電圧　　向き)
   w1 = new BatObj(x1, y1, L2, deg, Gnd, Vin, "R");
   w2 = new WireObj(w1.endX, w1.endY, L1, deg, w1.Vout, w1.Vout, "U");
   w3 = new WireObj(w2.endX, w2.endY, L1, deg, w2.Vout, w2.Vout, "U");
@@ -37,44 +51,66 @@ void setup() {
   w5 = new RObj(w3.endX, w3.endY, L2, deg, w3.Vout, Gnd, "L");
   w6 = new WireObj(w5.endX, w5.endY, L1, deg, Gnd, Gnd, "D");
   w7 = new WireObj(w4.endX, w4.endY, L1, deg, Gnd, Gnd, "D");
+//********************************************この部分を編集//********************************************
 
-  // Slider
+  // Sliderを作成
   slider = new ControlP5(this);
   slider.addSlider("sliderValue")
     .setLabel("V0")
     .setRange(0, Vmax)//0~Vmaxの間
     .setValue(25)//初期値
-    .setPosition(50, 400)//位置
+    .setPosition(width * slidebarX ,height * controlY)//位置
     .setSize(200, 20)//大きさ
-
-    // まとめても書ける
-    // slider.addSlider(name, minimum, maximum, default value (float), x, y, width, height)
-
     //.setColorActive(myColor)//hover
-    //.setColorBackground(myColor) //スライダの背景色 引数はintとかcolorとか
-    //.setColorCaptionLabel(myColor) //キャプションラベルの色
+    .setColorBackground(#24F6FF) //スライダの背景色 引数はintとかcolorとか
+    .setColorCaptionLabel(0) //キャプションラベルの色
     //.setColorForeground(myColor) //スライダの色
-    //.setColorValueLabel(myColor) //現在の数値の色
+    .setColorValueLabel(0) //現在の数値の色
     //.setSliderMode(Slider.FIX)//スライダーの形 Slider.FLEXIBLEだと逆三角形
-    .setNumberOfTickMarks(5);//Rangeを(引数の数-1)で割った値が1メモリの値
-
-
+    .setNumberOfTickMarks(9);//Rangeを(引数の数-1)で割った値が1メモリの値
   //スライダーの現在値の表示位置
   slider.getController("sliderValue")
     .getValueLabel()
     .align(ControlP5.RIGHT, ControlP5.BOTTOM_OUTSIDE)//位置、外側の右寄せ
     .setPaddingX(-20);//padding値をとる alineで設定したRIGHTからのpadding
+
+Vtoggle = new ControlP5(this);
+  
+  Vtoggle.addToggle("VtoggleValue")
+     .setLabel("V")
+     .setPosition(width * VtoggleX, height * controlY)
+     .setValue(false)
+     .setSize(40, 20)
+    .setColorValueLabel(0)  //現在の数値の色
+        .setColorBackground(#24F6FF) //スライダの背景色 引数はintとかcolorとか
+    .setColorCaptionLabel(0) ;//キャプションラベルの色
+
+Stoggle = new ControlP5(this);
+  
+  Stoggle.addToggle("StoggleValue")
+     .setLabel("S")
+     .setPosition(width * StoggleX, height * controlY)
+     .setValue(false)
+     .setSize(40, 20)
+    .setColorValueLabel(0)  //現在の数値の色
+        .setColorBackground(#24F6FF) //スライダの背景色 引数はintとかcolorとか
+    .setColorCaptionLabel(0) ;//キャプションラベルの色
+
+
 }
+
 
 void draw() {
   background(255);//背景を書き直せば、アニメ化できる！
+  
+  //スライダーで接続する電圧を設定
   w1.Vout = sliderValue;
   w2.Vin = sliderValue;
   w3.Vin = sliderValue;
   w4.Vin = sliderValue;
   w5.Vin = sliderValue;
 
-
+//回路図を表示する
   w1.displayC();
   w2.displayC();
   w3.displayC();
@@ -83,6 +119,9 @@ void draw() {
   w6.displayC();
   w7.displayC();
 
+    // Scale boxを表示する。ifの中に書く
+    stroke(0);
+  if(StoggleValue){
   w1.displayS(Vmax, 0);
   w2.displayS(Vmax, 0);
   w3.displayS(Vmax, 0);
@@ -90,14 +129,20 @@ void draw() {
   w5.displayS(Vmax, 0);
   w6.displayS(Vmax, 0);
   w7.displayS(Vmax, 0);
+  } else {
+  }
 
-  w1.displayV();
+    // V boxを表示する。ifの中に書く
+    stroke(0);
+  if(VtoggleValue){
+      w1.displayV();
   w2.displayV();
   w3.displayV();
   w4.displayV();
   w5.displayV();
   w6.displayV();
   w7.displayV();
+  } 
 }
 
 
