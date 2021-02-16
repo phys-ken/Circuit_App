@@ -1,3 +1,8 @@
+import controlP5.* ;
+
+ControlP5 slider;
+int sliderValue;
+
 BatObj w1;
 WireObj w2;
 WireObj w3;
@@ -8,6 +13,7 @@ WireObj w7;
 
 int memoriWeight = 1;
 int graphWeight = 2;
+float Vmax = 80;
 
 void setup() {
   size(480, 480);
@@ -19,7 +25,7 @@ void setup() {
   float y1 = 300;
   float L1 = 100;
   float L2 = 200;
-  float deg = radians(60); //0度〜180度で指定
+  float deg = radians(50); //0度〜180度で指定
   float Vin = 60;
   float Gnd  = 0;
 
@@ -31,10 +37,44 @@ void setup() {
   w5 = new RObj(w3.endX, w3.endY, L2, deg, w3.Vout, Gnd, "L");
   w6 = new WireObj(w5.endX, w5.endY, L1, deg, Gnd, Gnd, "D");
   w7 = new WireObj(w4.endX, w4.endY, L1, deg, Gnd, Gnd, "D");
+
+  // Slider
+  slider = new ControlP5(this);
+  slider.addSlider("sliderValue")
+    .setLabel("V0")
+    .setRange(0, Vmax)//0~Vmaxの間
+    .setValue(25)//初期値
+    .setPosition(50, 400)//位置
+    .setSize(200, 20)//大きさ
+
+    // まとめても書ける
+    // slider.addSlider(name, minimum, maximum, default value (float), x, y, width, height)
+
+    //.setColorActive(myColor)//hover
+    //.setColorBackground(myColor) //スライダの背景色 引数はintとかcolorとか
+    //.setColorCaptionLabel(myColor) //キャプションラベルの色
+    //.setColorForeground(myColor) //スライダの色
+    //.setColorValueLabel(myColor) //現在の数値の色
+    //.setSliderMode(Slider.FIX)//スライダーの形 Slider.FLEXIBLEだと逆三角形
+    .setNumberOfTickMarks(5);//Rangeを(引数の数-1)で割った値が1メモリの値
+
+
+  //スライダーの現在値の表示位置
+  slider.getController("sliderValue")
+    .getValueLabel()
+    .align(ControlP5.RIGHT, ControlP5.BOTTOM_OUTSIDE)//位置、外側の右寄せ
+    .setPaddingX(-20);//padding値をとる alineで設定したRIGHTからのpadding
 }
 
 void draw() {
-  float Vmax = 80;
+  background(255);//背景を書き直せば、アニメ化できる！
+  w1.Vout = sliderValue;
+  w2.Vin = sliderValue;
+  w3.Vin = sliderValue;
+  w4.Vin = sliderValue;
+  w5.Vin = sliderValue;
+
+
   w1.displayC();
   w2.displayC();
   w3.displayC();
