@@ -1,11 +1,20 @@
-import controlP5.* ;
 
-ControlP5 slider;
-ControlP5 Vtoggle;
-ControlP5 Stoggle;
-int sliderValue;
-boolean VtoggleValue;
-boolean StoggleValue;
+int sliderValue = 40;
+boolean VtoggleValue =  Boolean.valueOf(false);
+boolean StoggleValue =  Boolean.valueOf(true);
+
+void mousePressed() {
+  toggleV();
+}
+
+void toggleV() {
+  if(VtoggleValue){
+      VtoggleValue =  Boolean.valueOf(false);
+  } else {
+    VtoggleValue =  Boolean.valueOf(true);
+  }
+}
+
 
 BatObj w1;
 WireObj w2;
@@ -53,55 +62,18 @@ textFont(myFont);
   w7 = new WireObj(w4.endX, w4.endY, L1, deg, Gnd, Gnd, "D");
 //********************************************この部分を編集//********************************************
 
-  // Sliderを作成
-  slider = new ControlP5(this);
-  slider.addSlider("sliderValue")
-    .setLabel("V0")
-    .setRange(0, Vmax)//0~Vmaxの間
-    .setValue(25)//初期値
-    .setPosition(width * slidebarX ,height * controlY)//位置
-    .setSize(200, 20)//大きさ
-    //.setColorActive(myColor)//hover
-    .setColorBackground(#24F6FF) //スライダの背景色 引数はintとかcolorとか
-    .setColorCaptionLabel(0) //キャプションラベルの色
-    //.setColorForeground(myColor) //スライダの色
-    .setColorValueLabel(0) //現在の数値の色
-    //.setSliderMode(Slider.FIX)//スライダーの形 Slider.FLEXIBLEだと逆三角形
-    .setNumberOfTickMarks(9);//Rangeを(引数の数-1)で割った値が1メモリの値
-  //スライダーの現在値の表示位置
-  slider.getController("sliderValue")
-    .getValueLabel()
-    .align(ControlP5.RIGHT, ControlP5.BOTTOM_OUTSIDE)//位置、外側の右寄せ
-    .setPaddingX(-20);//padding値をとる alineで設定したRIGHTからのpadding
-
-Vtoggle = new ControlP5(this);
-  
-  Vtoggle.addToggle("VtoggleValue")
-     .setLabel("V")
-     .setPosition(width * VtoggleX, height * controlY)
-     .setValue(false)
-     .setSize(40, 20)
-    .setColorValueLabel(0)  //現在の数値の色
-        .setColorBackground(#24F6FF) //スライダの背景色 引数はintとかcolorとか
-    .setColorCaptionLabel(0) ;//キャプションラベルの色
-
-Stoggle = new ControlP5(this);
-  
-  Stoggle.addToggle("StoggleValue")
-     .setLabel("S")
-     .setPosition(width * StoggleX, height * controlY)
-     .setValue(false)
-     .setSize(40, 20)
-    .setColorValueLabel(0)  //現在の数値の色
-        .setColorBackground(#24F6FF) //スライダの背景色 引数はintとかcolorとか
-    .setColorCaptionLabel(0) ;//キャプションラベルの色
-
 
 }
 
 
 void draw() {
   background(255);//背景を書き直せば、アニメ化できる！
+  
+
+
+
+  
+  
   
   //スライダーで接続する電圧を設定
   w1.Vout = sliderValue;
