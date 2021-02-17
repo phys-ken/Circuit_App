@@ -1,3 +1,5 @@
+//初めての回路
+
 BatObj w1;
 RObj w2;
 RObj w3;
