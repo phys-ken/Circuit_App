@@ -4,18 +4,21 @@
 
 
   int sliderValue = 40;
-  boolean VtoggleValue =  Boolean.valueOf(false);
-  boolean StoggleValue =  Boolean.valueOf(true);
+  //boolean VtoggleValue =  Boolean.valueOf(false);
+  boolean StoggleValue =  Boolean.valueOf(false);
   
   void mousePressed() {
     toggleV();
+
   }
   
   void toggleV() {
     if(VtoggleValue){
         VtoggleValue =  Boolean.valueOf(false);
+
     } else {
       VtoggleValue =  Boolean.valueOf(true);
+
     }
   }
   
@@ -111,13 +114,15 @@
       // V boxを表示する。ifの中に書く
       stroke(0);
     if(VtoggleValue){
-        w1.displayV();
-    w2.displayV();
-    w3.displayV();
-    w4.displayV();
-    w5.displayV();
-    w6.displayV();
-    w7.displayV();
+      w1.displayV();
+      w2.displayV();
+      w3.displayV();
+      w4.displayV();
+      w5.displayV();
+      w6.displayV();
+      w7.displayV();
+    } else {
+
     } 
   }
   
