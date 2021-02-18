@@ -1,7 +1,7 @@
 
 int sliderValue = 40;
-boolean VtoggleValue =  Boolean.valueOf(false);
-boolean StoggleValue =  Boolean.valueOf(true);
+boolean VtoggleValue =   false ;//Boolean.valueOf(false);
+boolean StoggleValue =   true; //Boolean.valueOf(true);
 
 void mousePressed() {
   toggleV();
@@ -9,9 +9,9 @@ void mousePressed() {
 
 void toggleV() {
   if(VtoggleValue){
-      VtoggleValue =  Boolean.valueOf(false);
+      VtoggleValue =  false ;// Boolean.valueOf(false);
   } else {
-    VtoggleValue =  Boolean.valueOf(true);
+    VtoggleValue =  true ; //Boolean.valueOf(true);
   }
 }
 
