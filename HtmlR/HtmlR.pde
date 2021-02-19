@@ -78,13 +78,13 @@ void draw() {
 
   int tmpSLX = (int)(sizeW * slidebarX );
   int tmpSLY = (int)(sizeH * controlY);
-  rect(tmpSLX-bottunSize/2,tmpSLY -bottunSize/2, (sizeW / 3),bottunSize)
+  rect(tmpSLX-bottunSize/2,tmpSLY -bottunSize/2, (sizeW / 3),bottunSize);
 
   strokeWeight(0);
   fill(0);
-  int tmpSLX = (int)(sizeW * slidebarX );
-  int tmpSLY = (int)(sizeH * controlY);
-  rect(tmpSLX-bottunSize/2,tmpSLY -bottunSize/2,  (sliderValue / Vmax) * (sizeW / 3),bottunSize)
+  int tmpSSLX = (int)(sizeW * slidebarX );
+  int tmpSSLY = (int)(sizeH * controlY);
+  rect(tmpSSLX-bottunSize/2,tmpSSLY -bottunSize/2,  (sliderValue / Vmax) * (sizeW / 3),bottunSize);
 
 
   popStyle();
@@ -492,10 +492,11 @@ void mousePressed() {
   float dS = dist(mouseX,mouseY , tmpSX , tmpSY);
   if(dV < bottunSize){  toggleV();}
   if(dS < bottunSize){  toggleS();}
-if(mouseX >  sizeW * slidebarX && mouseX < sizeW * slidebarX + sizeW / 3){
-   sliderValue = map ( mouseX - (sizeW * slidebarX) ,0,  +sizeW / 3 , 0 , Vmax ) ;}
+if(mouseX >=  sizeW * slidebarX -bottunSize/2 && mouseX <= sizeW * slidebarX + sizeW / 3 -bottunSize/2
+&& mouseY >= controlY * sizeH -bottunSize/2 && mouseY <= controlY * sizeH + bottunSize /2 ){
+   sliderValue =(int) map ( mouseX - (sizeW * slidebarX) +bottunSize/2 ,0,   sizeW / 3 , 0 , Vmax ) ;}
 
-
+rect(mouseX,mouseY, 10,10);
 }
 
 void toggleV() {
@@ -513,4 +514,3 @@ void toggleS() {
     StoggleValue =  true;          //Boolean.valueOf(true);
   }
 }
-
