@@ -25,7 +25,7 @@ int bottunSize = 20;
 int sliderValue = 50;                             //スタイダーの初期値
 boolean VtoggleValue =   false;       //Boolean.valueOf(false);
 boolean StoggleValue =   false;          //Boolean.valueOf(true);
-
+int textBig = 20;
 
 void setup() {
   size(480, 480);  //手動
@@ -33,6 +33,7 @@ void setup() {
   smooth();
   PFont myFont = loadFont("Osaka-48.vlw");
   textFont(myFont);
+  textSize(textBig);
   
   
   
@@ -58,7 +59,7 @@ void setup() {
   w6 = new WireObj(w5.endX, w5.endY, L1, deg, Gnd, Gnd, "D");
   w7 = new WireObj(w4.endX, w4.endY, L1, deg, Gnd, Gnd, "D");
   //********************************************この部分を編集//********************************************
-
+  
 }
 
 
@@ -72,26 +73,42 @@ void draw() {
   int tmpVX = (int)(sizeW * VtoggleX);
   int tmpVY = (int)(sizeH * controlY);
   ellipse(tmpVX , tmpVY,bottunSize,bottunSize);
+  fill(0); //塗色を設定する
+  text("電圧図" ,
+    tmpVX -40, tmpVY - textBig - bottunSize/2,
+    200, 100);
+  fill(255);
+
+
+  fill(0); //塗色を設定する
+  text("入力電圧  " + floor(sliderValue * 100 / Vmax) + " %",
+    slidebarX * sizeW - bottunSize / 2 ,controlY * sizeH - bottunSize / 2 - textBig,
+    200, 100);
+  fill(255);
+  
   int tmpSX = (int)(sizeW * StoggleX);
   int tmpSY = (int)(sizeH * controlY);
   ellipse(tmpSX , tmpSY,bottunSize,bottunSize);
-
-  int tmpSLX = (int)(sizeW * slidebarX );
+  fill(0); //塗色を設定する
+  text("目盛り線" ,
+    tmpSX -40, tmpSY - textBig - bottunSize/2,
+    200, 100);
+  fill(255);
+  
+  int tmpSLX = (int)(sizeW * slidebarX);
   int tmpSLY = (int)(sizeH * controlY);
-  rect(tmpSLX-bottunSize/2,tmpSLY -bottunSize/2, (sizeW / 3),bottunSize);
-
+  rect(tmpSLX - bottunSize / 2,tmpSLY - bottunSize / 2,(sizeW / 3),bottunSize);
+  
   strokeWeight(0);
   fill(0);
-  int tmpSSLX = (int)(sizeW * slidebarX );
+  int tmpSSLX = (int)(sizeW * slidebarX);
   int tmpSSLY = (int)(sizeH * controlY);
-  rect(tmpSSLX-bottunSize/2,tmpSSLY -bottunSize/2,  (sliderValue / Vmax) * (sizeW / 3),bottunSize);
-
-
+  rect(tmpSSLX - bottunSize / 2,tmpSSLY - bottunSize / 2,(sliderValue / Vmax) * (sizeW / 3),bottunSize);
   popStyle();
-
-
-
-
+  
+  
+  
+  
   
   //スライダーで接続する電圧を設定
   w1.Vout = sliderValue;
@@ -490,13 +507,13 @@ void mousePressed() {
   int tmpSY = (int)(sizeH * controlY);
   float dV = dist(mouseX,mouseY , tmpVX , tmpVY);
   float dS = dist(mouseX,mouseY , tmpSX , tmpSY);
-  if(dV < bottunSize){  toggleV();}
-  if(dS < bottunSize){  toggleS();}
-if(mouseX >=  sizeW * slidebarX -bottunSize/2 && mouseX <= sizeW * slidebarX + sizeW / 3 -bottunSize/2
-&& mouseY >= controlY * sizeH -bottunSize/2 && mouseY <= controlY * sizeH + bottunSize /2 ){
-   sliderValue =(int) map ( mouseX - (sizeW * slidebarX) +bottunSize/2 ,0,   sizeW / 3 , 0 , Vmax ) ;}
-
-rect(mouseX,mouseY, 10,10);
+  if (dV < bottunSize) {  toggleV();}
+  if (dS < bottunSize) {  toggleS();}
+  if (mouseX >=  sizeW * slidebarX - bottunSize / 2 && mouseX <= sizeW * slidebarX + sizeW / 3 - bottunSize / 2
+    && mouseY >= controlY * sizeH - bottunSize / 2 && mouseY <= controlY * sizeH + bottunSize / 2) {
+    sliderValue = (int) map(mouseX - (sizeW * slidebarX) + bottunSize / 2 ,0,   sizeW / 3 , 0 , Vmax);}
+  
+  rect(mouseX,mouseY, 10,10);
 }
 
 void toggleV() {
