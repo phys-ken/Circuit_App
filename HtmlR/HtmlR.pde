@@ -70,12 +70,12 @@ void draw() {
   pushStyle();
   stroke(0);
   strokeWeight(3);
-  int tmpX = (int)(sizeW * VtoggleX);
-  int tmpY = (int)(sizeH * controlY);
-  ellipse(tmpX , tmpY,20,20);
-  int tmpX = (int)(sizeW * StoggleX);
-  int tmpY = (int)(sizeH * controlY);
-  ellipse(tmpX , tmpY,20,20);
+  int tmpVX = (int)(sizeW * VtoggleX);
+  int tmpVY = (int)(sizeH * controlY);
+  ellipse(tmpVX , tmpVY,20,20);
+  int tmpSX = (int)(sizeW * StoggleX);
+  int tmpSY = (int)(sizeH * controlY);
+  ellipse(tmpSX , tmpSY,20,20);
 
   popStyle();
   
