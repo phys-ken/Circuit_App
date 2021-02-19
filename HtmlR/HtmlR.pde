@@ -22,7 +22,7 @@ boolean StoggleValue =   true;          //Boolean.valueOf(true);
 
 
 void setup() {
-  size(wid, hgt);  
+  size(480, 480);  
   background(255);
   smooth();
   PFont myFont = loadFont("Osaka-48.vlw");
@@ -452,9 +452,9 @@ class BatObj {
 }
 
 
-//void mousePressed() {
-//  toggleV();
-//}
+void mousePressed() {
+  toggleV();
+}
 
 void toggleV() {
   if(VtoggleValue){
