@@ -12,5 +12,5 @@
 
 ---
 
-[トップ](https://phys-ken.github.io/Circuit_App/README.md)  
+[トップ](https://phys-ken.github.io/Circuit_App/)  
 [PhysKenのページ](https://github.com/phys-ken)
