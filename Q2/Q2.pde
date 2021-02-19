@@ -53,8 +53,9 @@ void setup() {
   
   w1 = new BatObj(x1, y1, L2, deg, Gnd, Vin, "R");
   w2 = new WireObj(w1.endX, w1.endY, L1, deg, w1.Vout, w1.Vout, "U");
-  w4 = new RObj(w2.endX, w2.endY, L2, deg, w2.Vout, Gnd, "L");
-  w7 = new WireObj(w4.endX, w4.endY, L1, deg, Gnd, Gnd, "D");
+  w4 = new RObj(w2.endX, w2.endY, L2/2, deg, w2.Vout, Vin/2, "L");
+  w5 = new RObj(w4.endX, w4.endY, L2/2, deg, w4.Vout, Gnd, "L");
+  w7 = new WireObj(w5.endX, w5.endY, L1, deg, Gnd, Gnd, "D");
   //********************************************この部分を編集//********************************************
   
 }
@@ -111,12 +112,15 @@ void draw() {
   w1.Vout = sliderValue;
   w2.Vin = sliderValue;
   w4.Vin = sliderValue;
+    w4.Vout = sliderValue/2;
+      w5.Vin = sliderValue/2;
   
   //回路図を表示する
   strokeWeight(kairoWeight);//回路の線の幅
   w1.displayC();
   w2.displayC();
   w4.displayC();
+  w5.displayC();
   w7.displayC();
   
   // Scale boxを表示する。ifの中に書く
@@ -125,6 +129,7 @@ void draw() {
     w1.displayS(Vmax, 0);
     w2.displayS(Vmax, 0);
     w4.displayS(Vmax, 0);
+        w5.displayS(Vmax, 0);
     w7.displayS(Vmax, 0);
   } else {
   }
@@ -135,6 +140,7 @@ void draw() {
     w1.displayV();
     w2.displayV();
     w4.displayV();
+        w5.displayV();
     w7.displayV();
   } 
 }
