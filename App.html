@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Processing.js Demo</title>
 </head>
+
 <body>
-<h1>クリックで電圧グラフを表示 </h1>
+    <h1>クリックで電圧グラフを表示 </h1>
 
     <canvas id="app" data-processing-sources="/HtmlR/HtmlR.pde"></canvas>
-<script src="processing.js"></script>
-
-
-<p>
-    <button onclick="toggleV('app')">電圧を表示</button>
-
     <script src="./processing.js"></script>
-    <script type="text/javascript">
-        function toggleV(id) {
-            var pjs = Processing.getInstanceById(id);
-            pjs.toggleV();
-        }
-    </script>
+
+
+    <!-- <p>
+        <button onclick="toggleV('app')">電圧を表示</button>
+
+        <script src="./processing.js"></script>
+        <script type="text/javascript">
+            function toggleV(id) {
+                var pjs = Processing.getInstanceById(id);
+                pjs.toggleV();
+            }
+        </script> -->
 
 </body>
+
 </html>
