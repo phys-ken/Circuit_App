@@ -12,8 +12,7 @@ int kairoWeight = 3;
 int memoriWeight = 1;                        //目盛り線の太さ
 int graphWeight = 3;                            //グラフ線の太さ
 float Vmax = 80;                                  //メモリの最大値
-int wid = 480;                                        //画面サイズ幅
-int hgt  = 480;                                       //画面サイズ縦
+
 
 //初期値の規定
 int sliderValue = 40;                             //スタイダーの初期値
