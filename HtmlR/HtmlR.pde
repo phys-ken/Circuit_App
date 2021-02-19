@@ -22,7 +22,7 @@ int bottunSize = 20;
 
 
 //初期値の規定
-int sliderValue = 40;                             //スタイダーの初期値
+int sliderValue = 50;                             //スタイダーの初期値
 boolean VtoggleValue =   false;       //Boolean.valueOf(false);
 boolean StoggleValue =   false;          //Boolean.valueOf(true);
 
@@ -58,8 +58,7 @@ void setup() {
   w6 = new WireObj(w5.endX, w5.endY, L1, deg, Gnd, Gnd, "D");
   w7 = new WireObj(w4.endX, w4.endY, L1, deg, Gnd, Gnd, "D");
   //********************************************この部分を編集//********************************************
-  
-  
+
 }
 
 
@@ -69,15 +68,30 @@ void draw() {
   //ボタンを描画
   pushStyle();
   stroke(0);
-  strokeWeight(3);
+  strokeWeight(4);
   int tmpVX = (int)(sizeW * VtoggleX);
   int tmpVY = (int)(sizeH * controlY);
-  ellipse(tmpVX , tmpVY,20,20);
+  ellipse(tmpVX , tmpVY,bottunSize,bottunSize);
   int tmpSX = (int)(sizeW * StoggleX);
   int tmpSY = (int)(sizeH * controlY);
-  ellipse(tmpSX , tmpSY,20,20);
+  ellipse(tmpSX , tmpSY,bottunSize,bottunSize);
+
+  int tmpSLX = (int)(sizeW * slidebarX );
+  int tmpSLY = (int)(sizeH * controlY);
+  rect(tmpSLX-bottunSize/2,tmpSLY -bottunSize/2, (sizeW / 3),bottunSize)
+
+  strokeWeight(0);
+  fill(0);
+  int tmpSLX = (int)(sizeW * slidebarX );
+  int tmpSLY = (int)(sizeH * controlY);
+  rect(tmpSLX-bottunSize/2,tmpSLY -bottunSize/2,  (sliderValue / Vmax) * (sizeW / 3),bottunSize)
+
 
   popStyle();
+
+
+
+
   
   //スライダーで接続する電圧を設定
   w1.Vout = sliderValue;
@@ -469,7 +483,6 @@ class BatObj {
   }
 }
 
-
 void mousePressed() {
   int tmpVX = (int)(sizeW * VtoggleX);
   int tmpVY = (int)(sizeH * controlY);
@@ -479,6 +492,9 @@ void mousePressed() {
   float dS = dist(mouseX,mouseY , tmpSX , tmpSY);
   if(dV < bottunSize){  toggleV();}
   if(dS < bottunSize){  toggleS();}
+if(mouseX >  sizeW * slidebarX && mouseX < sizeW * slidebarX + sizeW / 3){
+   sliderValue = map ( mouseX - (sizeW * slidebarX) ,0,  +sizeW / 3 , 0 , Vmax ) ;}
+
 
 }
 
@@ -497,3 +513,4 @@ void toggleS() {
     StoggleValue =  true;          //Boolean.valueOf(true);
   }
 }
+
