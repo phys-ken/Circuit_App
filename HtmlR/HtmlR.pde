@@ -1,21 +1,4 @@
-
-int sliderValue = 40;
-boolean VtoggleValue =   false ;//Boolean.valueOf(false);
-boolean StoggleValue =   true; //Boolean.valueOf(true);
-
-void mousePressed() {
-  toggleV();
-}
-
-void toggleV() {
-  if(VtoggleValue){
-      VtoggleValue =  false ;// Boolean.valueOf(false);
-  } else {
-    VtoggleValue =  true ; //Boolean.valueOf(true);
-  }
-}
-
-
+//オブジェクトを宣言
 BatObj w1;
 WireObj w2;
 WireObj w3;
@@ -24,27 +7,27 @@ RObj w5;
 WireObj w6;
 WireObj w7;
 
-int memoriWeight = 1;
-int graphWeight = 2;
-float Vmax = 80;
+//画面幅や目盛りの太さ等
+int kairoWeight = 3;
+int memoriWeight = 1;                        //目盛り線の太さ
+int graphWeight = 3;                            //グラフ線の太さ
+float Vmax = 80;                                  //メモリの最大値
+int wid = 480;                                        //画面サイズ幅
+int hgt  = 480;                                       //画面サイズ縦
 
+//初期値の規定
+int sliderValue = 40;                             //スタイダーの初期値
+boolean VtoggleValue =   false;       //Boolean.valueOf(false);
+boolean StoggleValue =   true;          //Boolean.valueOf(true);
 
 
 void setup() {
-  size(480, 480);
+  size(wid, hgt);  
   background(255);
   smooth();
   PFont myFont = loadFont("Osaka-48.vlw");
 textFont(myFont);
-  strokeWeight(5);//回路の線の幅
 
-  float x1 = 100; 
-  float y1 = 300;
-  float L1 = 100;
-  float L2 = 200;
-  float deg = radians(50); //0度〜180度で指定
-  float Vin = 60;
-  float Gnd  = 0;
   float controlY = 0.9; //上から9/10のところにバーを設置する。
   float slidebarX = 0.1;
   float VtoggleX = 0.8;
@@ -53,6 +36,15 @@ textFont(myFont);
 //********************************************この部分を編集//********************************************
 //各種ワイヤーオブジェクトをここで定義。
 //  (始点x  始点y  線の長さ　傾き　入力電圧　　出力電圧　　向き)
+
+  float x1 = 100; 
+  float y1 = 300;
+  float L1 = 100;
+  float L2 = 200;
+  float deg = radians(50); //0度〜180度で指定
+  float Vin = 60;
+  float Gnd  = 0;
+
   w1 = new BatObj(x1, y1, L2, deg, Gnd, Vin, "R");
   w2 = new WireObj(w1.endX, w1.endY, L1, deg, w1.Vout, w1.Vout, "U");
   w3 = new WireObj(w2.endX, w2.endY, L1, deg, w2.Vout, w2.Vout, "U");
@@ -69,12 +61,6 @@ textFont(myFont);
 void draw() {
   background(255);//背景を書き直せば、アニメ化できる！
   
-
-
-
-  
-  
-  
   //スライダーで接続する電圧を設定
   w1.Vout = sliderValue;
   w2.Vin = sliderValue;
@@ -83,6 +69,7 @@ void draw() {
   w5.Vin = sliderValue;
 
 //回路図を表示する
+  strokeWeight( kairoWeight);//回路の線の幅
   w1.displayC();
   w2.displayC();
   w3.displayC();
@@ -461,5 +448,18 @@ class BatObj {
     }
 
     popStyle();
+  }
+}
+
+
+//void mousePressed() {
+//  toggleV();
+//}
+
+void toggleV() {
+  if(VtoggleValue){
+      VtoggleValue =  false ;       // Boolean.valueOf(false);
+  } else {
+    VtoggleValue =  true ;          //Boolean.valueOf(true);
   }
 }

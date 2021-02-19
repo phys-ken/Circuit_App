@@ -7,9 +7,20 @@
 <body>
 <h1>クリックで電圧グラフを表示 </h1>
 
-    <canvas data-processing-sources="/HtmlR/HtmlR.pde"></canvas>
+    <canvas id="app" data-processing-sources="/HtmlR/HtmlR.pde"></canvas>
 <script src="processing.js"></script>
 
+
+<p>
+    <button onclick="toggleV('app')">電圧を表示</button>
+
+    <script src="./processing.js"></script>
+    <script type="text/javascript">
+        function toggleV(id) {
+            var pjs = Processing.getInstanceById(id);
+            pjs.toggleV();
+        }
+    </script>
 
 </body>
 </html>
