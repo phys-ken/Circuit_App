@@ -1,11 +1,14 @@
-//オブジェクトを宣言
-BatObj w1;
-WireObj w2;
-WireObj w3;
-RObj w4;
-RObj w5;
-WireObj w6;
-RObj w7;
+////////////////////////
+BatObj w1;           //
+WireObj w2;          //
+WireObj w3;          //
+RObj w4;             //       オブジェクトを宣言
+RObj w5;             //
+WireObj w6;          //
+RObj w7;             //
+///////////////////////
+boolean backFlag = true;
+
 
 //画面幅や目盛りの太さ等
 int kairoWeight = 3;
@@ -23,8 +26,8 @@ int bottunSize = 20;
 
 //初期値の規定
 int sliderValue = 50;                             //スタイダーの初期値
-boolean VtoggleValue =   true;       //Boolean.valueOf(false);
-boolean StoggleValue =   true;          //Boolean.valueOf(true);
+boolean VtoggleValue =   false;       //Boolean.valueOf(false);
+boolean StoggleValue =   false;          //Boolean.valueOf(true);
 int textBig = 20;
 
 void setup() {
@@ -39,24 +42,24 @@ void setup() {
 
 
 
-  //********************************************この部分を編集//********************************************
-  //各種ワイヤーオブジェクトをここで定義。
-  // (始点x  始点y  線の長さ　傾き　入力電圧　　出力電圧　　向き)
-
-  float x1 = 100; 
-  float y1 = 300;
-  float L1 = 100;
-  float L2 = 200;
-  float deg = radians(50); //0度〜180度で指定
-  float Vin = 60;
-  float Gnd  = 0;
-
-  w1 = new BatObj(x1, y1, L2, deg, Gnd, Vin, "R");
-  w2 = new WireObj(w1.endX, w1.endY, L1, deg, w1.Vout, w1.Vout, "U");
-  w4 = new RObj(w2.endX, w2.endY, L2/2, deg, w2.Vout, Vin/3, "L");
-  w5 = new RObj(w4.endX, w4.endY, L2/2, deg, w4.Vout, Vin/3, "L");
-  w7 = new RObj(w5.endX, w5.endY, L1, deg, w5.Vout, Gnd, "D");
-  //********************************************この部分を編集//********************************************
+  //********************************************この部分を編集//***********************
+  //各種ワイヤーオブジェクトをここで定義。                                               //
+  // (始点x  始点y  線の長さ　傾き　入力電圧　　出力電圧　　向き)                          //
+                                                                                  //
+  float x1 = 100;                                                                 //
+  float y1 = 300;                                                                 //
+  float L1 = 100;                                                                 //
+  float L2 = 200;                                                                 //
+  float deg = radians(50); //0度〜180度で指定                                       //
+  float Vin = 60;                                                                 //
+  float Gnd  = 0;                                                                 //
+                                                                                  //
+  w1 = new BatObj(x1, y1, L2, deg, Gnd, Vin, "R");                                //
+  w2 = new WireObj(w1.endX, w1.endY, L1, deg, w1.Vout, w1.Vout, "U");             //
+  w4 = new RObj(w2.endX, w2.endY, L2/2, deg, w2.Vout, Vin/3, "L");                //
+  w5 = new RObj(w4.endX, w4.endY, L2/2, deg, w4.Vout, Vin/3, "L");                //
+  w7 = new RObj(w5.endX, w5.endY, L1, deg, w5.Vout, Gnd, "D");                    //
+  //********************************************この部分を編集//***********************
 }
 
 
@@ -104,7 +107,7 @@ void draw() {
   popStyle();
 
 
-  //スライダーで接続する電圧を設定
+//************************************************************  //スライダーで接続する電圧を設定
   w1.Vout = sliderValue;
   w2.Vin = sliderValue;
   w4.Vin = sliderValue;
@@ -135,17 +138,18 @@ void draw() {
   // V boxを表示する。ifの中に書く
   stroke(0);
   if (VtoggleValue) {
-    w7.displayV(true);
-    w5.displayV(true);
-    w4.displayV(true);    
-    w2.displayV(true);
-    w1.displayV(true);
+    w7.displayV(backFlag);
+    w5.displayV(backFlag);
+    w4.displayV(backFlag);    
+    w2.displayV(backFlag);
+    w1.displayV(backFlag);
   }
 }
-
+//**************************************************************************************
 
 
 //****************オブジェクトの定義はここから下で*****************//
+//変更は不要！
 //ワイヤーオブジェクトを手動で継承
 
 //***初期化
